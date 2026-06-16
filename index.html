@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Súmate a la Red de Agentes Cleverty</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#EEF0F6;color:#0F1011;font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 48px;background:rgba(255,255,255,0.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,0.07);box-shadow:0 2px 16px rgba(0,0,0,0.05)}
+.nav-logo{font-family:'Poppins',sans-serif;font-weight:900;font-size:20px;background:linear-gradient(90deg,#7B2FFF,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-cta{background:linear-gradient(135deg,#7B2FFF,#116DFF);color:#fff;font-size:13px;font-weight:600;padding:10px 22px;border-radius:8px;text-decoration:none;transition:opacity .2s}
+.nav-cta:hover{opacity:.85}
+
+/* SHARED */
+.container{max-width:1100px;margin:0 auto}
+.section-tag{font-size:11px;font-weight:700;color:#7B2FFF;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
+h2{font-family:'Poppins',sans-serif;font-weight:900;font-size:clamp(28px,3.5vw,44px);line-height:1.15;margin-bottom:16px;color:#0F1011}
+h2 span{background:linear-gradient(135deg,#7B2FFF,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-sub{font-size:17px;color:rgba(15,16,17,0.5);line-height:1.65;max-width:600px}
+.btn-primary{display:inline-block;background:linear-gradient(135deg,#7B2FFF,#116DFF);color:#fff;font-weight:700;padding:16px 36px;border-radius:10px;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 32px rgba(123,47,255,0.28)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(123,47,255,0.38)}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,0,0,0.08),transparent)}
+
+/* ── 1. HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative;overflow:hidden;background:#EEF0F6}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(ellipse,rgba(123,47,255,0.1) 0%,transparent 70%);pointer-events:none}
+.hero-content{position:relative;max-width:860px}
+.hero-red-badge{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(123,47,255,0.12),rgba(0,212,255,0.08));border:1.5px solid rgba(123,47,255,0.3);color:#7B2FFF;font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;padding:10px 20px;border-radius:24px;margin-bottom:32px}
+h1{font-family:'Poppins',sans-serif;font-weight:900;font-size:clamp(36px,5.5vw,66px);line-height:1.08;margin-bottom:24px;color:#0F1011}
+h1 .grad{background:linear-gradient(135deg,#7B2FFF,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:18px;color:rgba(15,16,17,0.5);line-height:1.7;max-width:620px;margin:0 auto 40px}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.btn-secondary{display:inline-block;border:1.5px solid rgba(15,16,17,0.2);color:#0F1011;font-size:15px;font-weight:600;padding:15px 28px;border-radius:10px;text-decoration:none;transition:border-color .2s}
+.btn-secondary:hover{border-color:#7B2FFF;color:#7B2FFF}
+.hero-stats{display:flex;justify-content:center;gap:52px;margin-top:60px;padding-top:40px;border-top:1px solid rgba(0,0,0,0.08)}
+.stat-n{font-family:'Poppins',sans-serif;font-weight:900;font-size:30px;background:linear-gradient(135deg,#7B2FFF,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-l{font-size:12px;color:rgba(15,16,17,0.4);margin-top:2px;line-height:1.4}
+
+/* ── 2. PRODUCTOS */
+.prod-section{padding:96px 24px;background:#fff}
+.prod-tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:48px;border:1.5px solid rgba(0,0,0,0.08);border-radius:14px;overflow:hidden}
+.prod-tab{padding:28px 32px}
+.prod-tab.hw{background:#0D1B3E;color:#fff}
+.prod-tab.sw{background:#F2F4F9;color:#0F1011}
+.tab-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;opacity:.5}
+.tab-title{font-family:'Poppins',sans-serif;font-weight:800;font-size:20px;margin-bottom:8px}
+.tab-desc{font-size:13px;line-height:1.6;opacity:.65}
+.tab-badge{display:inline-block;font-size:10px;font-weight:700;padding:4px 10px;border-radius:6px;margin-top:10px;text-transform:uppercase;letter-spacing:.5px}
+.hw .tab-badge{background:rgba(0,212,255,0.15);color:#00D4FF}
+.sw .tab-badge{background:rgba(123,47,255,0.12);color:#7B2FFF}
+.hw-block{margin-bottom:56px}
+.hw-callout{background:#0F1011;border-radius:14px;padding:24px 28px;color:#fff;display:flex;align-items:center;gap:24px;margin-top:24px}
+.hw-callout-icon{font-size:32px;flex-shrink:0}
+.hw-callout-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:16px;margin-bottom:4px}
+.hw-callout-desc{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.6}
+.hw-callout strong{color:#00D4FF}
+.sw-block{background:#EEF0F6;border-radius:20px;padding:40px}
+.sw-claim{font-family:'Poppins',sans-serif;font-weight:900;font-size:clamp(20px,2.5vw,30px);color:#0F1011;margin-bottom:6px}
+.sw-sub-tag{font-size:10px;font-weight:700;color:#7B2FFF;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;display:block}
+.sw-devices{display:flex;align-items:flex-end;justify-content:center;gap:20px;margin:32px 0}
+.sw-callout{background:#fff;border-radius:14px;padding:24px 28px;border-left:3px solid #7B2FFF;margin-top:4px}
+.sw-callout-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:#7B2FFF;margin-bottom:6px}
+.sw-callout-desc{font-size:13px;color:rgba(15,16,17,0.55);line-height:1.65}
+.sw-callout strong{color:#0F1011}
+
+/* ── 3. TESTIMONIOS */
+.testimonios-section{padding:80px 24px;background:#EEF0F6}
+.testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.testi-card{background:#fff;border-radius:16px;padding:32px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 2px 16px rgba(0,0,0,0.05)}
+.testi-stars{color:#7B2FFF;font-size:16px;margin-bottom:14px;letter-spacing:2px}
+.testi-quote{font-size:16px;line-height:1.7;color:#0F1011;font-style:italic;margin-bottom:20px}
+.testi-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#0F1011}
+.testi-role{font-size:12px;color:rgba(15,16,17,0.4);margin-top:2px}
+.testi-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#7B2FFF,#116DFF);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+.testi-badge{display:inline-block;background:linear-gradient(135deg,rgba(123,47,255,0.1),rgba(0,212,255,0.08));border:1px solid rgba(123,47,255,0.2);color:#7B2FFF;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;margin-top:10px}
+/* CAROUSEL */
+.carousel-wrap{position:relative;overflow:hidden;margin-top:40px}
+.carousel-track{display:flex;transition:transform .4s cubic-bezier(.4,0,.2,1)}
+.carousel-slide{min-width:100%;padding:0 2px}
+.carousel-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px}
+.carousel-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(0,0,0,0.12);background:#fff;font-size:22px;line-height:1;cursor:pointer;color:#0F1011;display:flex;align-items:center;justify-content:center;transition:border-color .2s}
+.carousel-btn:hover{border-color:#7B2FFF;color:#7B2FFF}
+.carousel-dots{display:flex;gap:6px;align-items:center}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:rgba(0,0,0,0.15);cursor:pointer;transition:all .2s}
+.carousel-dot.active{background:#7B2FFF;width:24px;border-radius:4px}
+.testi-cta-card{background:linear-gradient(135deg,#7B2FFF,#116DFF);border-radius:16px;padding:32px;color:#fff;display:flex;flex-direction:column;justify-content:center}
+.testi-cta-card h3{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;margin-bottom:12px;line-height:1.3}
+.testi-cta-card p{font-size:14px;opacity:.75;line-height:1.65;margin-bottom:24px}
+.btn-white{display:inline-block;background:#fff;color:#7B2FFF;font-weight:700;font-size:14px;padding:12px 24px;border-radius:8px;text-decoration:none}
+
+/* ── 4. COMISIONES */
+.comisiones-section{padding:96px 24px;background:#fff}
+.rentas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:40px 0}
+.renta-card{border-radius:14px;padding:28px 20px;text-align:center;border:1.5px solid rgba(0,0,0,0.07)}
+.renta-card.conservador{background:#F8F9FC}
+.renta-card.medio{background:linear-gradient(135deg,rgba(123,47,255,0.06),rgba(17,109,255,0.06));border-color:rgba(123,47,255,0.2)}
+.renta-card.alto{background:#0D1B3E;color:#fff;border-color:#0D1B3E}
+.renta-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;opacity:.5}
+.renta-monto{font-family:'Poppins',sans-serif;font-weight:900;font-size:28px;margin-bottom:4px}
+.renta-card.medio .renta-monto{background:linear-gradient(135deg,#7B2FFF,#116DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.renta-card.alto .renta-monto{background:linear-gradient(135deg,#7B2FFF,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.renta-edif{font-size:12px;opacity:.45;margin-bottom:10px}
+.renta-desc{font-size:12px;line-height:1.55;opacity:.55}
+.career-path{margin-top:56px}
+.career-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:18px;color:#0F1011;margin-bottom:6px}
+.career-sub{font-size:14px;color:rgba(15,16,17,0.45);margin-bottom:28px}
+.career-steps{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:8px}
+.career-arrow{font-size:24px;color:rgba(15,16,17,0.2);text-align:center}
+.career-step{background:#F2F4F9;border-radius:14px;padding:24px 16px;text-align:center}
+.career-step-num{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:900;font-size:16px;margin:0 auto 10px}
+.career-step:nth-child(1) .career-step-num{background:rgba(123,47,255,0.12);color:#7B2FFF}
+.career-step:nth-child(3) .career-step-num{background:rgba(17,109,255,0.12);color:#116DFF}
+.career-step:nth-child(5) .career-step-num{background:#0D1B3E;color:#00D4FF}
+.career-step-name{font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#0F1011;margin-bottom:4px}
+.career-step-desc{font-size:12px;color:rgba(15,16,17,0.45);line-height:1.5}
+.career-legal{font-size:11px;color:rgba(15,16,17,0.3);margin-top:20px;font-style:italic}
+
+/* ── 5. PASOS */
+.pasos-section{padding:96px 24px;background:#EEF0F6}
+.pasos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.paso-card{background:#fff;border-radius:16px;padding:32px 24px;position:relative;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.05)}
+.paso-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.paso-card:nth-child(1)::before{background:linear-gradient(90deg,#7B2FFF,#5040FF)}
+.paso-card:nth-child(2)::before{background:linear-gradient(90deg,#4060FF,#116DFF)}
+.paso-card:nth-child(3)::before{background:linear-gradient(90deg,#116DFF,#00D4FF)}
+.paso-n{font-family:'Poppins',sans-serif;font-weight:900;font-size:52px;color:rgba(0,0,0,0.04);position:absolute;top:12px;right:18px;line-height:1}
+.paso-icon{font-size:28px;margin-bottom:14px;display:block}
+.paso-title{font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;color:#0F1011;margin-bottom:4px}
+.paso-chip{font-size:11px;font-weight:600;color:#7B2FFF;margin-bottom:14px;display:block}
+.paso-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.paso-list li{font-size:13px;color:rgba(15,16,17,0.6);line-height:1.5;padding-left:16px;position:relative}
+.paso-list li::before{content:'✓';position:absolute;left:0;color:#7B2FFF;font-weight:700;font-size:11px}
+.leads-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(123,47,255,0.08));border:1px solid rgba(0,212,255,0.25);color:#0099BB;font-size:11px;font-weight:700;padding:6px 12px;border-radius:8px;margin-top:14px}
+
+/* ── 6. CTA */
+.cta-section{padding:100px 24px;background:#0F1011;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(123,47,255,0.2) 0%,transparent 65%);pointer-events:none}
+.cta-section .section-tag{color:#7B2FFF}
+.cta-steps-row{display:flex;justify-content:center;gap:12px;margin-bottom:40px;flex-wrap:wrap}
+.cta-step-mini{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 20px;text-align:left;min-width:160px}
+.cta-step-mini strong{display:block;font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}
+.cta-step-mini span{font-size:12px;color:rgba(255,255,255,0.35)}
+.cta-urgency{font-size:12px;color:rgba(255,255,255,0.3);margin-top:20px}
+.cta-urgency strong{color:#7B2FFF}
+
+/* FOOTER */
+footer{padding:28px 48px;border-top:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;background:#0F1011}
+.footer-logo{font-family:'Poppins',sans-serif;font-weight:900;font-size:16px;background:linear-gradient(90deg,#7B2FFF,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.footer-txt{font-size:11px;color:rgba(255,255,255,0.2)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#"><img src="fotos/landing/logo-cleverty.png" alt="Cleverty" style="height:104px;display:block"></a>
+  <a href="#info-session" class="nav-cta">Quiero ser Agente →</a>
+</nav>
+
+<!-- ══ 1. HERO ══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-red-badge">🚀 ¡Súmate a la red de vendedores freelance de Cleverty!</div>
+    <h1>Conviértete en <span class="grad">Agente Certificado</span> de Cleverty.</h1>
+    <p class="hero-sub">Maneja tu tiempo y cuenta con nuestro apoyo para armar tu cartera. Tú vendes, nosotros ponemos todo lo demás.</p>
+    <div class="hero-btns">
+      <a href="#info-session" class="btn-primary" style="font-size:16px">Quiero ser Agente Certificado →</a>
+      <a href="#productos" class="btn-secondary">Ver qué vendes</a>
+    </div>
+    <!-- LO QUE APORTA CLEVERTY -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:48px;margin-bottom:0">
+      <div style="background:#fff;border-radius:12px;padding:16px 14px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.06)">
+        <div style="font-size:22px;margin-bottom:8px">🖥️</div>
+        <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:#0F1011;margin-bottom:3px">Plataformas</div>
+        <div style="font-size:11px;color:rgba(15,16,17,0.45);line-height:1.5">CRM, portal de cotización y correo @cleverty.app</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px 14px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.06)">
+        <div style="font-size:22px;margin-bottom:8px">🤝</div>
+        <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:#0F1011;margin-bottom:3px">Soporte</div>
+        <div style="font-size:11px;color:rgba(15,16,17,0.45);line-height:1.5">Equipo Cleverty disponible para respaldar tus cierres</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px 14px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid rgba(0,0,0,0.06)">
+        <div style="font-size:22px;margin-bottom:8px">🎓</div>
+        <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:#0F1011;margin-bottom:3px">Inducción</div>
+        <div style="font-size:11px;color:rgba(15,16,17,0.45);line-height:1.5">Curso certificado + sesiones semanales de refuerzo</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(123,47,255,0.08),rgba(0,212,255,0.06));border-radius:12px;padding:16px 14px;text-align:center;border:1.5px solid rgba(123,47,255,0.2)">
+        <div style="font-size:22px;margin-bottom:8px">⚡</div>
+        <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:13px;color:#7B2FFF;margin-bottom:3px">Leads calificados*</div>
+        <div style="font-size:11px;color:rgba(15,16,17,0.45);line-height:1.5">Oportunidades reales entregadas directamente</div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:rgba(15,16,17,0.3);margin-top:10px;text-align:center;font-style:italic">* Solo para agentes que completen su certificación y participen activamente en los eventos de inducción Cleverty.</p>
+
+    <div class="hero-stats">
+      <div><div class="stat-n">+150</div><div class="stat-l">edificios con<br>Cleverty instalado</div></div>
+      <div><div class="stat-n">3 años</div><div class="stat-l">en el mercado<br>creciendo</div></div>
+      <div><div class="stat-n">50.000+</div><div class="stat-l">edificios sin<br>Cleverty aún</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ 2. PRODUCTOS ═════════════════════════════════════════ -->
+<section class="prod-section" id="productos">
+  <div class="container">
+    <div class="section-tag">Lo que vendes</div>
+    <h2>Tenemos el ecosistema<br>más completo del mercado.</h2>
+    <p class="section-sub" style="margin-bottom:40px">Dos familias de productos. Puedes vender una, la otra, o las dos. Los mejores agentes trabajan el ecosistema completo.</p>
+
+    <div class="prod-tabs">
+      <div class="prod-tab hw">
+        <div class="tab-label">Familia 1</div>
+        <div class="tab-title">Hardware</div>
+        <div class="tab-desc">Tecnología física instalada en el edificio. Ticket alto. Comisión al cierre.</div>
+        <span class="tab-badge">Pago único · Venta consultiva</span>
+      </div>
+      <div class="prod-tab sw">
+        <div class="tab-label">Familia 2</div>
+        <div class="tab-title" style="background:linear-gradient(135deg,#7B2FFF,#116DFF);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Software / Apps</div>
+        <div class="tab-desc">Apps para conserje, residente y administrador. Cartera residual de por vida.</div>
+        <span class="tab-badge">Bola de nieve · Venta por cartera</span>
+      </div>
+    </div>
+
+    <!-- HARDWARE -->
+    <div class="hw-block">
+      <!-- Fila 1: collage | hw-products -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+        <img src="fotos/landing/collage-edificios.png" alt="Edificios con Cleverty" style="width:100%;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.1);display:block">
+        <img src="fotos/landing/hw-products.png" alt="Ecosistema hardware Cleverty" style="width:100%;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.07);display:block">
+      </div>
+      <!-- Fila 2: 3 fotos citofón -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <img src="fotos/landing/citofon-qr-exterior.png" alt="Citofón QR exterior" style="width:100%;border-radius:10px;display:block">
+        <img src="fotos/landing/citofon-qr-interior.png" alt="Citofón QR interior" style="width:100%;border-radius:10px;display:block">
+        <img src="fotos/landing/citofon-pantalla.png" alt="Citofón pantalla" style="width:100%;border-radius:10px;display:block">
+      </div>
+    </div>
+
+    <!-- SOFTWARE -->
+    <div class="sw-block" style="margin-top:40px">
+      <span class="sw-sub-tag">Software · 03 capas conectadas</span>
+      <div class="sw-claim">Software que conecta <span style="background:linear-gradient(135deg,#7B2FFF,#00D4FF);-webkit-background-clip:text;-webkit-text-fill-color:transparent">a todos.</span></div>
+      <img src="fotos/landing/hw-ecosystem.png" alt="Ecosistema Cleverty — apps y dispositivos" style="width:100%;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.08);display:block;margin:24px 0 16px">
+      <p style="text-align:center;font-family:'Poppins',sans-serif;font-weight:700;font-size:15px;color:rgba(15,16,17,0.35);letter-spacing:0.5px;margin:0">Residentes, administradores y conserjes.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ 3. TESTIMONIOS ════════════════════════════════════════ -->
+<section class="testimonios-section">
+  <div class="container">
+    <div class="section-tag">Quiénes ya están en la red</div>
+    <h2>Los que entraron primero<br>ya lo están viviendo.</h2>
+    <!-- CARRUSEL 2 cards/slide -->
+    <div class="carousel-wrap">
+      <div class="carousel-track" id="carouselTrack">
+
+        <!-- Slide 1: Pablo + Camila -->
+        <div class="carousel-slide" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;min-width:100%;padding:0 2px;box-sizing:border-box">
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">"Llevo más de un año con Cleverty y me encantan sus productos. Los clientes eligen el ecosistema completo. Hay algo que se llama orgullo de marca — yo lo siento cuando presento Cleverty."</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
+              <div class="testi-avatar">PC</div>
+              <div>
+                <div class="testi-name">Pablo Crestani</div>
+                <div class="testi-role">Agente Certificado · Santiago</div>
+              </div>
+            </div>
+            <div class="testi-badge">🏆 Comisión récord: $2.500.000 — Edificios San Pablo</div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">"Entré a la red sin experiencia en el rubro y en tres meses ya tenía 40 edificios en cartera. El producto se vende solo — los administradores lo ven y quieren. El soporte de Cleverty es increíble."</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#116DFF,#00D4FF)">CG</div>
+              <div>
+                <div class="testi-name">Camila González</div>
+                <div class="testi-role">Agente Certificada · Providencia</div>
+              </div>
+            </div>
+            <div class="testi-badge">📈 40 edificios en cartera en 3 meses</div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Martín + Andrés -->
+        <div class="carousel-slide" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;min-width:100%;padding:0 2px;box-sizing:border-box">
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">"Lo que más me convenció fue la comisión residual. No es una venta y chao — es construir algo que paga todos los meses. Ya tengo 80 edificios y el ingreso mensual es completamente predecible."</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#0099BB,#00D4FF)">MR</div>
+              <div>
+                <div class="testi-name">Martín Reyes</div>
+                <div class="testi-role">Agente Certificado · Las Condes</div>
+              </div>
+            </div>
+            <div class="testi-badge">💰 +$1.000.000/mes en cartera activa</div>
+          </div>
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">"Venía del rubro de seguros y la venta consultiva me acomodó perfecto. Cleverty tiene el mejor material de ventas que he usado. A los 6 meses ya era Partner y empecé a construir mi propio equipo."</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#7B2FFF,#B47AFF)">AS</div>
+              <div>
+                <div class="testi-name">Andrés Salinas</div>
+                <div class="testi-role">Partner Cleverty · Ñuñoa</div>
+              </div>
+            </div>
+            <div class="testi-badge">🚀 Partner en 6 meses · equipo de 4 agentes</div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Valentina + CTA -->
+        <div class="carousel-slide" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;min-width:100%;padding:0 2px;box-sizing:border-box">
+          <div class="testi-card">
+            <div class="testi-stars">★★★★★</div>
+            <p class="testi-quote">"Le presenté Cleverty a un administrador que maneja 25 edificios. Firmó los 25 de una vez. En ese momento entendí el poder de vender por cartera. Un solo cierre cambia completamente los números."</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:16px">
+              <div class="testi-avatar" style="background:linear-gradient(135deg,#FF6B6B,#FF4444)">VP</div>
+              <div>
+                <div class="testi-name">Valentina Pérez</div>
+                <div class="testi-role">Agente Certificada · Vitacura</div>
+              </div>
+            </div>
+            <div class="testi-badge">⚡ 25 edificios de un solo cierre</div>
+          </div>
+          <div class="testi-cta-card">
+            <h3>¿Listo para armar tu cartera?</h3>
+            <p>Todavía hay cupos abiertos. Los que entran primero construyen más rápido.</p>
+            <a href="#info-session" class="btn-white">Quiero ser Agente →</a>
+          </div>
+        </div>
+
+      </div><!-- /track -->
+
+      <!-- controles -->
+      <div class="carousel-controls">
+        <button class="carousel-btn" id="carouselPrev" onclick="moveCarousel(-1)">‹</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="carousel-btn" id="carouselNext" onclick="moveCarousel(1)">›</button>
+      </div>
+    </div><!-- /wrap -->
+
+    <script>
+    (function(){
+      const track = document.getElementById('carouselTrack');
+      const slides = track.querySelectorAll('.carousel-slide');
+      const dotsEl = document.getElementById('carouselDots');
+      let cur = 0;
+      const total = slides.length;
+
+      // Build dots
+      slides.forEach((_,i) => {
+        const d = document.createElement('span');
+        d.className = 'carousel-dot' + (i===0?' active':'');
+        d.onclick = () => goTo(i);
+        dotsEl.appendChild(d);
+      });
+
+      function goTo(n){
+        cur = (n + total) % total;
+        track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+        dotsEl.querySelectorAll('.carousel-dot').forEach((d,i) => d.classList.toggle('active', i===cur));
+      }
+
+      window.moveCarousel = function(dir){ goTo(cur + dir); };
+
+      // Auto-advance
+      setInterval(() => goTo(cur + 1), 5000);
+    })();
+    </script>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ 4. COMISIONES Y CARRERA ══════════════════════════════ -->
+<section class="comisiones-section" id="comisiones">
+  <div class="container">
+    <div class="section-tag">Así ganas</div>
+    <h2>Empieza vendiendo hoy.<br><span>Construye tu cartera para siempre.</span></h2>
+    <p class="section-sub">Ganas por cada edificio que vendes, para siempre. Cuánto ganes depende de cuánto construyas.</p>
+
+    <div class="rentas-grid">
+      <div class="renta-card conservador">
+        <div class="renta-label">Escenario conservador</div>
+        <div class="renta-monto" style="color:#0F1011">$400.000</div>
+        <div class="renta-edif">~30 edificios en cartera</div>
+        <div class="renta-desc">Agente activo, ritmo moderado. Primeros meses en la red.</div>
+      </div>
+      <div class="renta-card medio">
+        <div class="renta-label">Escenario medio</div>
+        <div class="renta-monto">$1.200.000</div>
+        <div class="renta-edif">~90 edificios en cartera</div>
+        <div class="renta-desc">Agente comprometido. 6 meses de cartera activa acumulada.</div>
+      </div>
+      <div class="renta-card alto">
+        <div class="renta-label">Escenario alto</div>
+        <div class="renta-monto">$2.500.000+</div>
+        <div class="renta-edif">+180 edificios en cartera</div>
+        <div class="renta-desc">Agente de alto rendimiento. 12+ meses de bola de nieve.</div>
+      </div>
+    </div>
+
+    <!-- CALLOUT HW ONE-SHOT -->
+    <div style="background:linear-gradient(135deg,#0D1B3E 0%,#1a2a5e 100%);border-radius:16px;padding:28px 36px;margin:16px 0 40px;display:flex;align-items:center;gap:28px;box-shadow:0 4px 24px rgba(0,0,0,0.15)">
+      <div style="font-size:40px;flex-shrink:0">💰</div>
+      <div>
+        <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:17px;color:#fff;margin-bottom:6px">Y a eso súmale las comisiones de hardware — pago único al cierre.</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.65">Los escenarios de arriba son solo tu <strong style="color:#00D4FF">cartera residual de software</strong>. Cada edificio que vendas con hardware instalado te genera una comisión de pago único adicional — entre <strong style="color:#7B2FFF">$750.000 y $1.500.000 de un golpe</strong>, al cierre. Sin esperar meses. Sin letra chica. Eso se suma encima de tu cartera.</div>
+      </div>
+    </div>
+
+    <div class="career-path">
+      <div class="career-title">Construye tu carrera. Sin techo.</div>
+      <div class="career-sub">La red tiene estructura. Los que cumplen, suben.</div>
+      <div class="career-steps">
+        <div class="career-step">
+          <div class="career-step-num">1</div>
+          <div class="career-step-name">Agente Certificado</div>
+          <div class="career-step-desc">Certificación online + kit completo. Construyes tu cartera de edificios.</div>
+        </div>
+        <div class="career-arrow">→</div>
+        <div class="career-step">
+          <div class="career-step-num">2</div>
+          <div class="career-step-name">Partner Cleverty</div>
+          <div class="career-step-desc">Tienes tu propio equipo de agentes. Ganas % sobre su producción también.</div>
+        </div>
+        <div class="career-arrow">→</div>
+        <div class="career-step">
+          <div class="career-step-num">3</div>
+          <div class="career-step-name">Regional Cleverty</div>
+          <div class="career-step-desc">Supervisas agentes y partners de una zona completa del país.</div>
+        </div>
+      </div>
+      <p class="career-legal">* Escala sujeta a cumplimiento de metas y pertenencia activa en la red.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ 5. PASOS ═════════════════════════════════════════════ -->
+<section class="pasos-section" id="como-funciona">
+  <div class="container">
+    <div class="section-tag">Proceso de incorporación</div>
+    <h2>3 pasos. <span>2 semanas.</span><br>Ya estás vendiendo.</h2>
+    <p class="section-sub">Nosotros ponemos todo. Tú pones las ganas.</p>
+    <div class="pasos-grid">
+      <div class="paso-card">
+        <span class="paso-n">01</span>
+        <span class="paso-icon">📅</span>
+        <div class="paso-title">Info Session</div>
+        <span class="paso-chip">Martes 19:00h · Google Meet · Gratis</span>
+        <ul class="paso-list">
+          <li>Inscríbete en la próxima sesión informativa</li>
+          <li>Conoces el modelo, las comisiones y el producto</li>
+          <li>30 minutos con el equipo Cleverty en vivo</li>
+        </ul>
+      </div>
+      <div class="paso-card">
+        <span class="paso-n">02</span>
+        <span class="paso-icon">🎓</span>
+        <div class="paso-title">Curso online</div>
+        <span class="paso-chip">4 módulos · ~1 semana · a tu ritmo</span>
+        <ul class="paso-list">
+          <li>Módulos de producto, argumentario y cierre</li>
+          <li>Demos interactivas de cada solución</li>
+          <li>Apruebas el test → Agente Certificado Cleverty</li>
+        </ul>
+      </div>
+      <div class="paso-card">
+        <span class="paso-n">03</span>
+        <span class="paso-icon">🚀</span>
+        <div class="paso-title">Certifícate y a vender</div>
+        <span class="paso-chip">Todo incluido · Sin costo</span>
+        <ul class="paso-list">
+          <li>Correo oficial @cleverty.app</li>
+          <li>Acceso al CRM y portal de cotización</li>
+          <li>Material de ventas con marca Cleverty</li>
+        </ul>
+        <div class="leads-badge">⚡ Leads calificados para agentes comprometidos</div>
+        <p style="font-size:11px;color:rgba(15,16,17,0.4);margin-top:8px;line-height:1.5">* Solo agentes certificados activos con asistencia a meets Cleverty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 6. CTA FINAL ═════════════════════════════════════════ -->
+<section class="cta-section" id="info-session" style="background:#0D1B3E">
+  <div class="container" style="position:relative">
+    <img src="fotos/landing/logo-cleverty-blanco.png" alt="Cleverty" style="height:200px;margin:0 auto 40px;display:block">
+    <div class="section-tag" style="color:#00D4FF">El mercado está abierto</div>
+    <h2 style="color:#fff;max-width:720px;margin:0 auto 16px">Miles de edificios en Chile<br>que aún necesitan Cleverty.<br><span>Ese es tu mercado.</span></h2>
+    <p style="font-size:17px;color:rgba(255,255,255,0.45);max-width:500px;margin:0 auto 48px;line-height:1.7">La red está creciendo y todavía hay cupos abiertos. Mientras antes entres, más fácil armar tu cartera recurrente.</p>
+    <div class="cta-steps-row">
+      <div class="cta-step-mini" style="background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12)"><strong>1 · Info Session</strong><span>Martes 19:00h · Google Meet</span></div>
+      <div class="cta-step-mini" style="background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12)"><strong>2 · Curso online</strong><span>~1 semana, gratis, a tu ritmo</span></div>
+      <div class="cta-step-mini" style="background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12)"><strong>3 · Certifícate y vende</strong><span>Kit completo desde el día 1</span></div>
+    </div>
+    <a href="#" class="btn-primary" style="font-size:17px;padding:18px 48px">Quiero ser Agente Certificado Cleverty →</a>
+    <p class="cta-urgency">Próximo Info Session: <strong>martes 19:00h</strong> · Google Meet · Cupos limitados</p>
+  </div>
+</section>
+
+
+
+</body>
+</html>
