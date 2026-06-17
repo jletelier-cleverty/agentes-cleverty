@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script — Certificación Agente Cleverty</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, 'Segoe UI', sans-serif;
+    background: #F5F6FA;
+    color: #1A1D2E;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  .header {
+    background: #0B1630;
+    padding: 40px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .header-left h1 {
+    color: #fff;
+    font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
+  }
+  .header-left p { color: rgba(255,255,255,0.45); font-size: 14px; margin-top: 4px; }
+  .header-badge {
+    background: rgba(123,47,255,0.25);
+    border: 1px solid rgba(123,47,255,0.4);
+    color: #b388ff;
+    padding: 8px 18px; border-radius: 999px;
+    font-size: 13px; font-weight: 700;
+  }
+
+  /* LAYOUT */
+  .container { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ÍNDICE */
+  .toc {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 40px;
+    border: 1px solid #E8EAF0;
+  }
+  .toc h2 { font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #9095A8; margin-bottom: 16px; }
+  .toc-items { display: flex; flex-direction: column; gap: 8px; }
+  .toc-item {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; color: #1A1D2E;
+    padding: 10px 14px; border-radius: 10px;
+    transition: background .15s;
+  }
+  .toc-item:hover { background: #F5F6FA; }
+  .toc-num {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 800; flex-shrink: 0;
+  }
+  .toc-item:nth-child(1) .toc-num { background: rgba(0,212,255,0.12); color: #00D4FF; }
+  .toc-item:nth-child(2) .toc-num { background: rgba(0,200,83,0.12); color: #00C853; }
+  .toc-item:nth-child(3) .toc-num { background: rgba(123,47,255,0.12); color: #7B2FFF; }
+  .toc-item:nth-child(4) .toc-num { background: rgba(255,140,0,0.12); color: #FF8C00; }
+  .toc-item:nth-child(5) .toc-num { background: rgba(17,109,255,0.12); color: #116DFF; }
+  .toc-label { font-size: 15px; font-weight: 600; }
+  .toc-time { margin-left: auto; font-size: 12px; color: #9095A8; font-weight: 600; }
+
+  /* MÓDULOS */
+  .module {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #E8EAF0;
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .module-header {
+    padding: 24px 32px;
+    display: flex; align-items: center; gap: 16px;
+    border-bottom: 1px solid #F0F1F5;
+  }
+  .module-num {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 900; flex-shrink: 0;
+  }
+  .m1 .module-num { background: rgba(0,212,255,0.1); color: #00D4FF; }
+  .m2 .module-num { background: rgba(0,200,83,0.1); color: #00C853; }
+  .m3 .module-num { background: rgba(123,47,255,0.1); color: #7B2FFF; }
+  .m4 .module-num { background: rgba(255,140,0,0.1); color: #FF8C00; }
+  .m5 .module-num { background: rgba(17,109,255,0.1); color: #116DFF; }
+  .module-title { font-size: 18px; font-weight: 800; }
+  .module-meta { display: flex; gap: 8px; margin-top: 4px; }
+  .badge-small {
+    font-size: 11px; font-weight: 700; padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .badge-time { background: #F0F1F5; color: #666; }
+  .badge-cam  { background: #EEF2FF; color: #4A6BEF; }
+
+  .module-body { padding: 28px 32px; }
+
+  /* ESCENAS */
+  .scene {
+    background: #F8F9FC;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px;
+    color: #7B2FFF;
+    border-left: 3px solid #7B2FFF;
+  }
+  .scene.green { color: #00A846; border-left-color: #00A846; }
+  .scene.orange { color: #E07800; border-left-color: #E07800; }
+  .scene.blue { color: #116DFF; border-left-color: #116DFF; }
+
+  /* DIÁLOGO */
+  .speaker {
+    display: inline-block;
+    font-size: 11px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 999px;
+    margin-bottom: 10px; margin-top: 20px;
+  }
+  .jt   { background: #0B1630; color: #00D4FF; }
+  .maca { background: #1A0B40; color: #b388ff; }
+  .both { background: #1A2A0B; color: #4dff91; }
+
+  .dialogo {
+    background: #fff;
+    border: 1px solid #E8EAF0;
+    border-radius: 12px;
+    padding: 20px 24px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #1A1D2E;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .dialogo strong { color: #0B1630; }
+  .dialogo em { color: #7B2FFF; font-style: normal; font-weight: 700; }
+
+  .nota-prod {
+    background: #FFFBEB;
+    border: 1px solid #FCD34D;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #92400E;
+    margin: 12px 0;
+  }
+  .nota-prod::before { content: "🎬 "; }
+
+  /* SECCIÓN INTERNA */
+  .sub-section { margin: 28px 0 16px; }
+  .sub-section h3 {
+    font-size: 13px; font-weight: 800;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: #9095A8; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .sub-section h3::after {
+    content: ''; flex: 1; height: 1px; background: #E8EAF0;
+  }
+
+  /* QUIZ */
+  .quiz-item {
+    background: #F8F9FC;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    border: 1px solid #E8EAF0;
+  }
+  .quiz-q { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-option {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    border: 1px solid #E8EAF0;
+    color: #555;
+  }
+  .quiz-option.correct {
+    background: #F0FFF4;
+    border-color: #6BCB8B;
+    color: #15803D;
+    font-weight: 700;
+  }
+  .quiz-option.correct::after { content: " ✅"; }
+
+  /* NOTAS */
+  .produccion {
+    background: #0B1630;
+    border-radius: 16px;
+    padding: 32px;
+    color: #fff;
+  }
+  .produccion h2 { font-size: 16px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #00D4FF; margin-bottom: 20px; }
+  .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .prod-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .prod-card h3 { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+  .prod-card ul { list-style: none; }
+  .prod-card li { font-size: 14px; color: rgba(255,255,255,0.7); padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .prod-card li:last-child { border: none; }
+  .prod-card li::before { content: "→ "; color: #7B2FFF; }
+
+  .timeline {
+    display: flex; gap: 0; margin-bottom: 24px;
+  }
+  .tl-item {
+    flex: 1; text-align: center; padding: 12px 8px;
+    background: rgba(255,255,255,0.04);
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .tl-item:last-child { border: none; }
+  .tl-num { font-size: 20px; font-weight: 900; color: #7B2FFF; }
+  .tl-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+
+  /* PRINT */
+  @media print {
+    body { background: #fff; }
+    .header { background: #0B1630 !important; -webkit-print-color-adjust: exact; }
+    .module { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Script · Certificación Agente Cleverty</h1>
+    <p>Versión 1.0 · Para grabar · Presentadores: JT + Maca · ~55 minutos</p>
+  </div>
+  <div class="header-badge">✅ Comisiones incluidas · Revisar con Maca antes de grabar</div>
+</div>
+
+<div class="container">
+
+  <!-- ÍNDICE -->
+  <div class="toc">
+    <h2>Índice</h2>
+    <div class="toc-items">
+      <a href="#m1" class="toc-item"><div class="toc-num">1</div><div class="toc-label">Bienvenida a Cleverty</div><div class="toc-time">~5 min</div></a>
+      <a href="#m2" class="toc-item"><div class="toc-num">2</div><div class="toc-label">El Negocio — Tus Comisiones</div><div class="toc-time">~8 min</div></a>
+      <a href="#m3" class="toc-item"><div class="toc-num">3</div><div class="toc-label">El Producto</div><div class="toc-time">~12 min</div></a>
+      <a href="#m4" class="toc-item"><div class="toc-num">4</div><div class="toc-label">Cómo Se Vende</div><div class="toc-time">~20 min</div></a>
+      <a href="#m5" class="toc-item"><div class="toc-num">5</div><div class="toc-label">Certificación — Quiz</div><div class="toc-time">~10 min</div></a>
+    </div>
+  </div>
+
+  <!-- MÓDULO 1 -->
+  <div class="module m1" id="m1">
+    <div class="module-header">
+      <div class="module-num">1</div>
+      <div>
+        <div class="module-title">Bienvenida a Cleverty</div>
+        <div class="module-meta">
+          <span class="badge-small badge-time">~5 min</span>
+          <span class="badge-small badge-cam">JT + Maca juntos · Fondo limpio</span>
+        </div>
+      </div>
+    </div>
+    <div class="module-body">
+
+      <div class="scene">Cámara: JT y Maca de frente · Tono: cálido, cercano</div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "Hola, bienvenido a la Certificación Oficial de Agente Cleverty. Soy José Tomás, Co-Founder y CEO de Cleverty."
+      </div>
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Y yo soy Macarena, <strong>[TÍTULO MACA]</strong>. Estamos muy contentos de que estés acá, porque significa que ya diste el primer paso para ser parte de nuestra red."
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "Antes de entrar de lleno al curso, queremos contarte de dónde venimos. Porque Cleverty no nació en un garage. Nació desde adentro del mundo inmobiliario.<br><br>
+        Somos parte de <strong>Tricapitals</strong>, una inmobiliaria que lleva años desarrollando edificios en Chile. Cuando diseñamos nuestro primer proyecto, nos dimos cuenta de algo: los edificios en Chile se construyen bien, pero se administran pésimo. Tecnología antigua, procesos manuales, residentes frustrados.<br><br>
+        Y ahí nació Cleverty. Con una pregunta simple: <em>¿qué pasa si le ponemos tecnología de verdad a los edificios?</em>"
+      </div>
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Hoy llevamos más de un año operando con nuestra red de agentes, con <strong>[N° EDIFICIOS]</strong> edificios funcionando en Chile. Hemos instalado hardware en comunidades reales, con residentes reales usándolo todos los días. Y lo que más nos enorgullece es que funciona."
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "Y ahora estamos en un momento muy especial. Estamos expandiendo lo que vendemos. Ya no solo es hardware — ya estamos lanzando nuestra nueva línea de software: <strong>Sindry, Cleverty Box</strong>, y más productos que vienen. Todo enfocado en hacer que un edificio funcione solo.<br><br>
+        Tú, como agente certificado, vas a ser parte de esa expansión. En Chile primero. Y luego, en Latinoamérica.<br><br>
+        Gracias por estar acá. Empecemos."
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MÓDULO 2 -->
+  <div class="module m2" id="m2">
+    <div class="module-header">
+      <div class="module-num">2</div>
+      <div>
+        <div class="module-title">El Negocio — Tus Comisiones</div>
+        <div class="module-meta">
+          <span class="badge-small badge-time">~8 min</span>
+          <span class="badge-small badge-cam">JT solo · Motivador · Pantalla con números</span>
+        </div>
+      </div>
+    </div>
+    <div class="module-body">
+
+      <div class="scene orange">⚠️ Completar antes de grabar: % comisión HW · % comisión fee · precio Sindry · % comisión Sindry</div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "Antes de hablar de productos, hablemos de lo que a todos les importa: <em>la plata</em>.<br><br>
+        Como agente Cleverty tienes acceso a <strong>DOS negocios distintos</strong>. Y eso es lo que nos diferencia de cualquier otra empresa donde hayas trabajado antes."
+      </div>
+
+      <div class="sub-section">
+        <h3>Negocio 1 — Hardware + Suscripción</h3>
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "El primero es nuestra <strong>suscripción</strong> — y acá hay algo que nos hace únicos en Chile.<br><br>
+        Los edificios son burocráticos al momento de invertir. Un comité puede tardar meses en aprobar cualquier gasto. La tecnología siempre queda postergada porque 'no hay presupuesto'.<br><br>
+        <em>Nosotros resolvemos eso de raíz.</em> Somos de los únicos en Chile que financiamos completamente la tecnología de una comunidad. El edificio nos dice qué quiere — citófonos, torniquetes, cámaras, lockers — lo configuramos todo y lo transformamos en un <strong>fee mensual a 36 meses, todo incluido</strong>. Hardware, instalación, soporte, plataforma. Todo.<br><br>
+        <strong>Inversión inicial para el edificio: cero pesos.</strong><br><br>
+        ¿Y cómo ganas tú? Con una comisión <em>one time</em> al momento de cerrar. La comisión equivale a <strong>2 veces el fee mensual</strong>. El fee promedio es de UF 15 — eso son <strong>UF 30, cerca de $1.200.000</strong>, de un solo golpe.<br><br>
+        Es una venta más lenta y consultiva. Hay que visitar el edificio, cotizar, presentar al comité. Puede tomar semanas o meses. Pero cuando cae, paga bien.<br><br>
+        Y siguen cayendo. Porque el mercado es enorme y casi nadie tiene esto todavía."
+      </div>
+
+      <div class="nota-prod">B-roll sugerido: infografía fee mensual 36 meses / calculadora de ingresos recurrentes</div>
+
+
+
+
+      <div class="sub-section">
+        <h3>Negocio 2 — Software (Sindry / Cleverty Box)</h3>
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "El segundo negocio es nuestra <strong>familia de software</strong> — Sindry, Cleverty Box y lo que viene. Y acá cambia todo.<br><br>
+        El ciclo es rápido. Agendas una demo, la haces, y si le gusta, firma. Días, no meses. Es masivo — cualquier edificio que tenga un dolor de gestión es tu cliente potencial.<br><br>
+        ¿Y cómo ganas tú? Acá es donde armas tu cartera de ingresos pasivos. La comisión es <strong>recurrente</strong>:<br><br>
+        <strong>Año 1: cobras el 20% del fee mensual.</strong><br>
+        <strong>Año 2: 10%.</strong><br>
+        <strong>Año 3 en adelante: 5% para siempre.</strong><br><br>
+        Cada edificio que cierra en software te paga todos los meses mientras siga activo. Diez edificios. Veinte. Treinta. Eso es una cartera.<br><br>
+        La suscripción te da los golpes grandes. El software te da el ingreso estable mes a mes. Los mejores agentes hacen las dos."
+      </div>
+
+      <div class="sub-section">
+        <h3>El Plan de Carrera — Agente → Partner Regional</h3>
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "Y acá viene algo que me emociona contarte, porque es lo que nos diferencia de cualquier modelo de ventas tradicional.<br><br>
+        En Cleverty no hay un techo.<br><br>
+        <strong>Empiezas como Agente.</strong> Vendes suscripciones y software en tu zona, construyes tu cartera de edificios, y cobras tu comisión recurrente mes a mes.<br><br>
+        <strong>Cuando llegas a un volumen de edificios activos, puedes convertirte en Partner Regional.</strong> ¿Qué significa eso? Que puedes reclutar y liderar tu propio equipo de agentes en tu región. Y cobras un porcentaje del negocio que ellos generan — encima de lo tuyo.<br><br>
+        El Partner Regional es básicamente un operador del negocio Cleverty en su territorio. Nosotros ponemos el producto, la tecnología, el soporte. Tú pones el equipo y el mercado.<br><br>
+        Así es como se construye algo grande, no vendiendo edificio por edificio, sino construyendo una red que vende por ti.<br><br>
+        Los mejores partners regionales de Chile van a ser los que arranquen hoy."
+      </div>
+
+      <div class="nota-prod">B-roll sugerido: mapa de Chile con zonas marcadas / esquema red de agentes</div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "El mercado está abierto. Hay miles de edificios en Chile que no tienen nada de esto todavía. Eso no es un problema — <em>es tu oportunidad</em>.<br><br>
+        Vamos al siguiente módulo."
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MÓDULO 3 -->
+  <div class="module m3" id="m3">
+    <div class="module-header">
+      <div class="module-num">3</div>
+      <div>
+        <div class="module-title">El Producto</div>
+        <div class="module-meta">
+          <span class="badge-small badge-time">~12 min</span>
+          <span class="badge-small badge-cam">Maca · Cámara + pantalla + B-roll</span>
+        </div>
+      </div>
+    </div>
+    <div class="module-body">
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Ahora te voy a mostrar lo que realmente vendemos. Porque para vender bien, primero hay que entender bien."
+      </div>
+
+      <div class="sub-section">
+        <h3>Los 4 pilares del ecosistema</h3>
+      </div>
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Cleverty tiene cuatro pilares de hardware:<br><br>
+        <strong>Uno: Citófonos QR inteligentes.</strong> El residente abre la puerta desde su celular, con QR o código. Sin llaves, sin tarjetas. El visitante llama desde el exterior y el residente atiende desde donde esté.<br><br>
+        <strong>Dos: Control de acceso.</strong> Torniquetes y puertas conectadas. El edificio sabe quién entra y quién sale, en tiempo real.<br><br>
+        <strong>Tres: Cámaras inteligentes.</strong> Grabación en la nube, acceso desde el panel. No más tener que ir al cuarto de máquinas a revisar un cassette.<br><br>
+        <strong>Cuatro: Lockers inteligentes.</strong> Para delivery, paquetes, todo. El residente recibe una notificación cuando llega su paquete."
+      </div>
+
+      <div class="nota-prod">B-roll: residente usando citófono QR · app en celular · locker abriendo · cámara en edificio</div>
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Y todo esto se conecta con nuestra plataforma. El conserje tiene un panel web. El residente tiene la app. El administrador tiene visibilidad total."
+      </div>
+
+      <div class="sub-section">
+        <h3>Sindry — Caso Real en pantalla</h3>
+      </div>
+
+      <div class="scene blue">Pantalla compartida: Sindry en vivo</div>
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Ahora, Sindry. Déjenme mostrarles cómo funciona en un edificio real.<br><br>
+        Esto es lo que ve el conserje cada día. Tickets de mantención, visitas agendadas, control de accesos, comunicados a residentes. Todo en un solo lugar.<br><br>
+        Antes esto se hacía en un libro. En papel. En un edificio con 200 departamentos.<br><br>
+        Hoy, con Sindry, el conserje resuelve en minutos lo que antes tomaba horas. Y el administrador ve todo desde su casa.<br><br>
+        Eso es lo que vendes. <em>No tecnología — vendes tiempo, tranquilidad y control.</em>"
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MÓDULO 4 -->
+  <div class="module m4" id="m4">
+    <div class="module-header">
+      <div class="module-num">4</div>
+      <div>
+        <div class="module-title">Cómo Se Vende</div>
+        <div class="module-meta">
+          <span class="badge-small badge-time">~20 min</span>
+          <span class="badge-small badge-cam">JT + Maca alternados · Pantalla</span>
+        </div>
+      </div>
+    </div>
+    <div class="module-body">
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "Este es el módulo más importante del curso. Porque el producto es increíble, pero si no sabes cómo llegar al cliente y cerrar, no sirve de nada.<br><br>
+        Te voy a explicar el proceso de venta para cada negocio, paso a paso."
+      </div>
+
+      <div class="sub-section">
+        <h3>Proceso 1 — Venta Suscripción (Hardware + recurrente)</h3>
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "<strong>Paso 1: Prospección.</strong> Tu cliente objetivo es el administrador del edificio. No el comité — el administrador. Es quien tiene la pain del día a día y quien te puede abrir la puerta.<br><br>
+        ¿Dónde los encuentras? Empresas de administración, directorios de condominios, LinkedIn, referidos. Un buen administrador maneja 5, 10, 15 edificios. Si entras por uno, puedes entrar a todos.<br><br>
+        <strong>Paso 2: Visita al edificio.</strong> No cotices sin ver el edificio. Necesitas contar los accesos, ver el estado actual de la tecnología, entender el tamaño. Es la única forma de armar una propuesta real.<br><br>
+        <strong>Paso 3: Cotizar en la plataforma.</strong>"
+      </div>
+
+      <div class="scene blue">Maca con pantalla: plataforma de cotización en vivo</div>
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Así se cotiza en nuestra plataforma. Ingresas los datos del edificio — número de departamentos, accesos, dispositivos — y la plataforma genera la propuesta automáticamente. UF de hardware, fee mensual, condiciones de financiamiento. Todo listo para presentar."
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "<strong>Paso 4: Presentación al comité.</strong> El administrador te abre la puerta, pero la decisión final la toma el comité. Prepárate para 20 minutos. Nosotros te damos el material. Muestra el ROI, los casos de otros edificios, el financiamiento.<br><br>
+        <strong>Paso 5: Seguimiento.</strong> Este es un ciclo largo. No te desanimes si no cierran en la primera reunión. El seguimiento sistemático es lo que diferencia a los agentes top de los que no convierten."
+      </div>
+
+      <div class="sub-section">
+        <h3>Proceso 2 — Venta Software (Sindry / Cleverty Box)</h3>
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "El proceso acá es completamente distinto. Es más corto, más directo.<br><br>
+        <strong>Paso 1: Califica al cliente.</strong> ¿Tiene un edificio? ¿El administrador tiene dolores con la gestión — residentes molestos, ticketera caótica, falta de visibilidad? Perfecto. Es tu cliente.<br><br>
+        <strong>Paso 2: La demo.</strong> Aquí es donde se cierra o no se cierra. La demo dura 30 minutos máximo."
+      </div>
+
+      <div class="scene blue">Maca con pantalla: demo Sindry en vivo</div>
+
+      <div class="speaker maca">MACA</div>
+      <div class="dialogo">
+        "Así es una demo. Mostramos el panel del conserje, el flujo de tickets, la app del residente, los reportes del administrador. No explicamos features — <em>contamos historias</em>.<br><br>
+        'Imagina que un residente reporta una fuga de agua a las 11 de la noche. Así lo ves, así lo asignas, así lo cierras. Todo en Sindry.'<br><br>
+        La demo tiene que provocar ese momento de <em>'oye, esto lo necesito'</em>."
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "<strong>Paso 3: Reunión de seguimiento.</strong> Si la demo fue bien, en 48 horas agendas una segunda reunión para resolver dudas y afinar el precio.<br><br>
+        <strong>Paso 4: Mes de prueba.</strong> Ofrecemos un mes gratis para que carguen el edificio y vean el valor. La gran mayoría de los que arrancan el mes de prueba se quedan.<br><br>
+        <strong>Paso 5: Cierre y carga del edificio.</strong> Los ayudamos a cargar los datos — residentes, departamentos, espacios comunes. No los dejas solos. Eso construye confianza y reduce la rotación.<br><br>
+        Si haces bien estos cinco pasos, el cierre es natural."
+      </div>
+
+      <div class="sub-section">
+        <h3>Las 3 reglas de oro</h3>
+      </div>
+
+      <div class="speaker jt">JT</div>
+      <div class="dialogo">
+        "Antes de pasar al test, tres cosas que aprendimos con el tiempo:<br><br>
+        <strong>Uno: No vendas tecnología. Vende tranquilidad.</strong> El administrador no quiere un citófono QR. Quiere dejar de recibir llamadas a las 12 de la noche porque alguien no puede entrar.<br><br>
+        <strong>Dos: Los referidos son oro.</strong> Un edificio bien atendido te da dos o tres edificios más. Pídelos explícitamente una vez que el cliente esté contento.<br><br>
+        <strong>Tres: Usa nuestra red.</strong> Somos un equipo. Si tienes dudas, casos difíciles, objeciones que no sabes cómo responder — escríbenos. Estamos para apoyarte."
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MÓDULO 5 -->
+  <div class="module m5" id="m5">
+    <div class="module-header">
+      <div class="module-num">5</div>
+      <div>
+        <div class="module-title">Certificación — Quiz</div>
+        <div class="module-meta">
+          <span class="badge-small badge-time">~10 min</span>
+          <span class="badge-small badge-cam">Online en GHL · 10 preguntas · Nota mínima 7/10</span>
+        </div>
+      </div>
+    </div>
+    <div class="module-body">
+
+      <div class="quiz-item">
+        <div class="quiz-q">1. ¿Cuál es el ticket promedio de hardware por edificio?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) UF 500</div>
+          <div class="quiz-option correct">b) UF 1.250</div>
+          <div class="quiz-option">c) UF 2.000</div>
+          <div class="quiz-option">d) UF 800</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">2. ¿Cuánto es el fee mensual por edificio?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) UF 8</div>
+          <div class="quiz-option">b) UF 10</div>
+          <div class="quiz-option correct">c) UF 14,5</div>
+          <div class="quiz-option">d) UF 20</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">3. ¿A quién va dirigida principalmente la venta de suscripción (hardware)?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) Al dueño del departamento</div>
+          <div class="quiz-option">b) Al residente</div>
+          <div class="quiz-option correct">c) Al administrador del edificio</div>
+          <div class="quiz-option">d) Al conserje</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">4. ¿Qué diferencia al ciclo de venta de software (Sindry) del hardware?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) El software es más caro</div>
+          <div class="quiz-option correct">b) El software tiene ciclo más corto y cierra con demo</div>
+          <div class="quiz-option">c) El software no paga comisión recurrente</div>
+          <div class="quiz-option">d) El software solo se vende a edificios nuevos</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">5. ¿Cuántos pilares de hardware tiene el ecosistema Cleverty?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) 2</div>
+          <div class="quiz-option">b) 3</div>
+          <div class="quiz-option correct">c) 4</div>
+          <div class="quiz-option">d) 5</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">6. ¿Qué herramienta se usa para cotizar el hardware de un edificio?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) Una planilla Excel propia del agente</div>
+          <div class="quiz-option correct">b) La plataforma de cotización Cleverty</div>
+          <div class="quiz-option">c) Un correo con el equipo comercial</div>
+          <div class="quiz-option">d) La app de residentes</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">7. ¿Cuánto dura aproximadamente una demo de Sindry?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) 1 hora</div>
+          <div class="quiz-option correct">b) 30 minutos</div>
+          <div class="quiz-option">c) 5 minutos</div>
+          <div class="quiz-option">d) 2 horas</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">8. ¿Cuál es el primer paso en el proceso de venta de hardware?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) Presentar al comité</div>
+          <div class="quiz-option">b) Cotizar en la plataforma</div>
+          <div class="quiz-option correct">c) Prospectar al administrador del edificio</div>
+          <div class="quiz-option">d) Hacer una demo</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">9. ¿Qué empresa originó Cleverty?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) Una startup tecnológica de Santiago</div>
+          <div class="quiz-option correct">b) La inmobiliaria Tricapitals</div>
+          <div class="quiz-option">c) Un fondo de inversión extranjero</div>
+          <div class="quiz-option">d) El gobierno de Chile</div>
+        </div>
+      </div>
+
+      <div class="quiz-item">
+        <div class="quiz-q">10. ¿Qué significa que la comisión del fee mensual es "recurrente"?</div>
+        <div class="quiz-options">
+          <div class="quiz-option">a) Se paga una sola vez al cerrar</div>
+          <div class="quiz-option correct">b) Se paga todos los meses mientras el edificio tenga suscripción activa</div>
+          <div class="quiz-option">c) Se paga cada 6 meses</div>
+          <div class="quiz-option">d) Solo se paga el primer año</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NOTAS DE PRODUCCIÓN -->
+  <div class="produccion">
+    <h2>Notas de Producción</h2>
+
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-num">5'</div><div class="tl-label">Módulo 1</div></div>
+      <div class="tl-item"><div class="tl-num">8'</div><div class="tl-label">Módulo 2</div></div>
+      <div class="tl-item"><div class="tl-num">12'</div><div class="tl-label">Módulo 3</div></div>
+      <div class="tl-item"><div class="tl-num">20'</div><div class="tl-label">Módulo 4</div></div>
+      <div class="tl-item"><div class="tl-num">10'</div><div class="tl-label">Quiz</div></div>
+      <div class="tl-item" style="background:rgba(123,47,255,0.15)"><div class="tl-num" style="color:#b388ff">~55'</div><div class="tl-label">Total</div></div>
+    </div>
+
+    <div class="prod-grid">
+      <div class="prod-card">
+        <h3>Setup cámara</h3>
+        <ul>
+          <li>Fondo limpio o virtual Cleverty</li>
+          <li>Luz natural o ring light frontal</li>
+          <li>Ropa smart casual, colores sólidos</li>
+          <li>Micrófono lapela o escritorio</li>
+          <li>El audio importa más que la imagen</li>
+        </ul>
+      </div>
+      <div class="prod-card">
+        <h3>B-roll a grabar</h3>
+        <ul>
+          <li>Residente usando citófono QR</li>
+          <li>App Cleverty en celular (screen record)</li>
+          <li>Dashboard Sindry en pantalla</li>
+          <li>Maca haciendo demo real de Sindry</li>
+          <li>JT en edificio instalado</li>
+        </ul>
+      </div>
+      <div class="prod-card">
+        <h3>⚠️ Pendiente antes de grabar</h3>
+        <ul>
+          <li>Título / cargo de Maca</li>
+          <li>% comisión HW (venta)</li>
+          <li>% comisión fee mensual</li>
+          <li>Precio mensual Sindry</li>
+          <li>Cómo funciona el financiamiento HW</li>
+        </ul>
+      </div>
+      <div class="prod-card">
+        <h3>Orden de grabación sugerido</h3>
+        <ul>
+          <li>1° Módulo 1 (juntos, energía alta)</li>
+          <li>2° Módulo 2 (JT solo)</li>
+          <li>3° Módulo 4 (mientras hay energía)</li>
+          <li>4° Módulo 3 (Maca + pantalla)</li>
+          <li>5° B-roll al final</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
